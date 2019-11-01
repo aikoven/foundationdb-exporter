@@ -1,0 +1,20 @@
+{
+  "name": "foundationdb-exporter",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.51",
+    "@types/node": "^10.12.9",
+    "typescript": "~3.6.4"
+  },
+  "dependencies": {
+    "env-var": "^5.1.0",
+    "foundationdb": "^0.10.3",
+    "koa": "^2.11.0"
+  }
+}

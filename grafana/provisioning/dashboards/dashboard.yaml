@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'FoundationDB Event Store'
+    folder: ''
+    type: file
+    disableDeletion: true
+    editable: true
+    updateIntervalSeconds: 10
+    options:
+      path: /etc/grafana/foundationdb.json

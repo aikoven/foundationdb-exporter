@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  exporter:
+    image: aikoven/foundationdb-exporter:${BUILD_TAG:-latest}
+    build: ./exporter
+    volumes:
+      - foundationdb-config:/etc/foundationdb/
+    depends_on:
+      - foundationdb
+    ports:
+      - '127.0.0.1:9444:9444'
+
+  foundationdb:
+    build: ./foundationdb
+    environment:
+      FDB_CLUSTER_FILE: /etc/foundationdb/fdb.cluster
+    volumes:
+      - foundationdb-config:/etc/foundationdb/
+    ports:
+      - '127.0.0.1:4500:4500'
+
+  prometheus:
+    image: prom/prometheus:v2.13.1
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    # ports:
+    #   - '127.0.0.1:9090:9090'
+
+  grafana:
+    image: grafana/grafana:6.4.3
+    volumes:
+      - ./grafana:/etc/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - '127.0.0.1:3000:3000'
+
+volumes:
+  foundationdb-config: {}
