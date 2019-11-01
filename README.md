@@ -6,7 +6,7 @@ Prometheus exporter for FoundationDB. Exports values from FoundationDB
 ## Usage
 
 Run Docker container from image
-[`aikoven/foundationdb-exporter`](https://cloud.docker.com/repository/docker/aikoven/foundationdb-exporter).
+[`aikoven/foundationdb-exporter`](https://hub.docker.com/r/aikoven/foundationdb-exporter).
 
 Metrics are exposed on `:9444/metrics` endpoint.
 
