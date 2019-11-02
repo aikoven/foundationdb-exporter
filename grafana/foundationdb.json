@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1572607360915,
+  "iteration": 1572672278234,
   "links": [],
   "panels": [
     {
@@ -285,6 +285,7 @@
       "targets": [
         {
           "expr": "fdb_clients_total{job=\"$job\"}",
+          "instant": true,
           "refId": "A"
         }
       ],
@@ -1469,7 +1470,7 @@
           "refId": "B"
         },
         {
-          "expr": "sum(fdb_process_disk_reads_total{job=\"$job\", address=~\"($machines):\\\\d+\"} + fdb_process_disk_writes_total) by (address)",
+          "expr": "sum(rate(fdb_process_disk_reads_total{job=\"$job\", address=~\"($machines):\\\\d+\"}[1m]) + rate(fdb_process_disk_writes_total[1m])) by (address)",
           "format": "table",
           "instant": true,
           "refId": "D"
