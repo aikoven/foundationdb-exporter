@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1572787011690,
+  "iteration": 1572806205817,
   "links": [],
   "panels": [
     {
@@ -358,17 +358,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(fdb_workload_operations_read_requests_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_operations_read_requests_total{job=\"$job\"}[5m]))",
           "legendFormat": "Read requests",
           "refId": "A"
         },
         {
-          "expr": "rate(fdb_workload_operations_reads_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_operations_reads_total{job=\"$job\"}[5m]))",
           "legendFormat": "Reads",
           "refId": "B"
         },
         {
-          "expr": "rate(fdb_workload_operations_writes_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_operations_writes_total{job=\"$job\"}[5m]))",
           "legendFormat": "Writes",
           "refId": "C"
         }
@@ -454,12 +454,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(fdb_workload_transactions_started_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_transactions_started_total{job=\"$job\"}[5m]))",
           "legendFormat": "Transactions started",
           "refId": "A"
         },
         {
-          "expr": "rate(fdb_workload_transactions_committed_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_transactions_committed_total{job=\"$job\"}[5m]))",
           "legendFormat": "Transactions committed",
           "refId": "B"
         }
@@ -545,7 +545,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(fdb_workload_transactions_conflicted_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_transactions_conflicted_total{job=\"$job\"}[5m]))",
           "legendFormat": "Transactions conflicted",
           "refId": "A"
         }
@@ -631,7 +631,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(fdb_workload_keys_read_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_keys_read_total{job=\"$job\"}[5m]))",
           "legendFormat": "Keys read",
           "refId": "A"
         }
@@ -717,12 +717,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(fdb_workload_bytes_read_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_bytes_read_total{job=\"$job\"}[5m]))",
           "legendFormat": "Bytes read",
           "refId": "A"
         },
         {
-          "expr": "rate(fdb_workload_bytes_written_total{job=\"$job\"}[5m])",
+          "expr": "sum(rate(fdb_workload_bytes_written_total{job=\"$job\"}[5m]))",
           "legendFormat": "Bytes written",
           "refId": "B"
         }
@@ -891,6 +891,176 @@
         "x": 8,
         "y": 17
       },
+      "id": 74,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "max(fdb_data_total_disk_used_bytes{job=\"$job\"})",
+          "instant": false,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total disk used",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "decbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 17
+      },
+      "id": 75,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "max(fdb_data_total_kv_size_bytes{job=\"$job\"})",
+          "instant": false,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total KV size",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "decbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 16,
+        "y": 17
+      },
       "id": 55,
       "interval": null,
       "links": [],
@@ -973,7 +1143,7 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 12,
+        "x": 20,
         "y": 17
       },
       "id": 56,
@@ -1038,176 +1208,6 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": null,
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 16,
-        "y": 17
-      },
-      "id": 57,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "expr": "fdb_data_partitions_total{job=\"$job\"}",
-          "instant": true,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Partitions",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": null,
-      "format": "decbytes",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 20,
-        "y": 17
-      },
-      "id": 58,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "expr": "fdb_data_average_partition_size_bytes{job=\"$job\"}",
-          "instant": true,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Average partition size",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -1221,7 +1221,7 @@
         "x": 0,
         "y": 23
       },
-      "id": 62,
+      "id": 61,
       "legend": {
         "avg": false,
         "current": false,
@@ -1247,8 +1247,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_data_moving_total_written_bytes{job=\"$job\"}[1m]))",
-          "legendFormat": "Moving data rate",
+          "expr": "sum(fdb_data_moving_in_queue_bytes{job=\"$job\"})",
+          "legendFormat": "In-queue bytes",
           "refId": "A"
         }
       ],
@@ -1256,7 +1256,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Moving data rate",
+      "title": "Moving data in-queue bytes",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1272,7 +1272,7 @@
       },
       "yaxes": [
         {
-          "format": "Bps",
+          "format": "decbytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1393,7 +1393,7 @@
         "x": 16,
         "y": 23
       },
-      "id": 61,
+      "id": 62,
       "legend": {
         "avg": false,
         "current": false,
@@ -1419,8 +1419,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(fdb_data_moving_in_queue_bytes{job=\"$job\"})",
-          "legendFormat": "In-queue bytes",
+          "expr": "sum(rate(fdb_data_moving_total_written_bytes{job=\"$job\"}[1m]))",
+          "legendFormat": "Moving data rate",
           "refId": "A"
         }
       ],
@@ -1428,7 +1428,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Moving data in-queue bytes",
+      "title": "Moving data rate",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1444,7 +1444,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1475,7 +1475,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 31
       },
@@ -1556,6 +1556,261 @@
       }
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "decbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 31
+      },
+      "id": 76,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "max(fdb_data_system_kv_size_bytes{job=\"$job\"})",
+          "instant": false,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "System KV size",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "decbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 16,
+        "y": 31
+      },
+      "id": 58,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "fdb_data_average_partition_size_bytes{job=\"$job\"}",
+          "instant": true,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average partition size",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 31
+      },
+      "id": 57,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "fdb_data_partitions_total{job=\"$job\"}",
+          "instant": true,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Partitions",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
       "collapsed": false,
       "datasource": null,
       "gridPos": {
@@ -1579,7 +1834,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 7,
         "x": 0,
         "y": 40
       },
@@ -1665,8 +1920,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 7,
+        "x": 7,
         "y": 40
       },
       "id": 67,
@@ -1742,6 +1997,158 @@
       }
     },
     {
+      "cacheTimeout": null,
+      "columns": [],
+      "datasource": null,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 40
+      },
+      "id": 77,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "pluginVersion": "6.4.3",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "Stored",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decbytes"
+        },
+        {
+          "alias": "KV Store Available",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decbytes"
+        },
+        {
+          "alias": "KV Store Free",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decbytes"
+        },
+        {
+          "alias": "KV Store Total",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #D",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decbytes"
+        },
+        {
+          "alias": "KV Store Used",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #E",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decbytes"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "max(fdb_process_storage_stored_bytes{job=\"$job\"}) by (address)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "stored",
+          "refId": "A"
+        },
+        {
+          "expr": "max(fdb_process_storage_kvstore_used_bytes{job=\"$job\"}) by (address)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "kv store used",
+          "refId": "E"
+        },
+        {
+          "expr": "max(fdb_process_storage_kvstore_available_bytes{job=\"$job\"}) by (address)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "kv store available",
+          "refId": "B"
+        },
+        {
+          "expr": "max(fdb_process_storage_kvstore_free_bytes{job=\"$job\"}) by (address)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "kv store free",
+          "refId": "C"
+        },
+        {
+          "expr": "max(fdb_process_storage_kvstore_total_bytes{job=\"$job\"}) by (address)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "kv store total",
+          "refId": "D"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Stored data",
+      "transform": "table",
+      "type": "table"
+    },
+    {
       "collapsed": false,
       "datasource": null,
       "gridPos": {
@@ -1795,7 +2202,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "fdb_latency_probe_read_seconds{job=\"$job\"}",
+          "expr": "max(fdb_latency_probe_read_seconds{job=\"$job\"})",
           "legendFormat": "Time to perform a single read",
           "refId": "A"
         }
@@ -1881,7 +2288,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "fdb_latency_probe_commit_seconds{job=\"$job\"}",
+          "expr": "max(fdb_latency_probe_commit_seconds{job=\"$job\"})",
           "legendFormat": "Time to commit a sample transaction",
           "refId": "A"
         }
@@ -1967,17 +2374,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "fdb_latency_probe_transaction_start_seconds{job=\"$job\"}",
+          "expr": "max(fdb_latency_probe_transaction_start_seconds{job=\"$job\"})",
           "legendFormat": "Time to start a sample transaction at normal priority",
           "refId": "A"
         },
         {
-          "expr": "fdb_latency_probe_immediate_priority_transaction_start_seconds{job=\"$job\"}",
+          "expr": "max(fdb_latency_probe_immediate_priority_transaction_start_seconds{job=\"$job\"})",
           "legendFormat": "Time to start a sample transaction at system immediate priority",
           "refId": "B"
         },
         {
-          "expr": "fdb_latency_probe_batch_priority_transaction_start_seconds{job=\"$job\"}",
+          "expr": "max(fdb_latency_probe_batch_priority_transaction_start_seconds{job=\"$job\"})",
           "legendFormat": "Time to start a sample transaction at batch priority",
           "refId": "C"
         }
@@ -2333,13 +2740,13 @@
         "x": 0,
         "y": 67
       },
-      "id": 70,
+      "id": 78,
       "maxPerRow": 3,
       "options": {},
       "pageSize": null,
       "repeat": null,
       "repeatDirection": "v",
-      "repeatIteration": 1572787011690,
+      "repeatIteration": 1572806205817,
       "repeatPanelId": 23,
       "scopedVars": {
         "machines": {
@@ -2621,13 +3028,13 @@
         "x": 0,
         "y": 76
       },
-      "id": 71,
+      "id": 79,
       "maxPerRow": 3,
       "options": {},
       "pageSize": null,
       "repeat": null,
       "repeatDirection": "v",
-      "repeatIteration": 1572787011690,
+      "repeatIteration": 1572806205817,
       "repeatPanelId": 23,
       "scopedVars": {
         "machines": {
@@ -2979,5 +3386,5 @@
   "timezone": "",
   "title": "FoundationDB",
   "uid": "kklWA0AWk",
-  "version": 4
+  "version": 6
 }
