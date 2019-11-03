@@ -176,6 +176,25 @@ function* dataMetrics(
     values: [{value: data.partitions_count}],
   };
 
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_total_disk_used_bytes',
+    help: 'Total disk used',
+    values: [{value: data.total_disk_used_bytes}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_total_kv_size_bytes',
+    help: 'Total KV size',
+    values: [{value: data.total_kv_size_bytes}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_system_kv_size_bytes',
+    help: 'System KV size',
+    values: [{value: data.system_kv_size_bytes}],
+  };
+
   if (data.moving_data) {
     yield {
       type: 'gauge',
@@ -201,6 +220,10 @@ function* dataMetrics(
 function* qosMetrics(
   qos: FDBStatus['cluster']['qos'],
 ): IterableIterator<Metric> {
+  if (!qos) {
+    return;
+  }
+
   yield {
     type: 'gauge',
     name: 'fdb_qos_limiting_storage_server_data_lag_seconds',
@@ -489,6 +512,63 @@ function* storageProcessesMetrics(
       processStatus.roles.filter(isRole('storage')).map(status => ({
         labels: {processId, address: processStatus.address},
         value: status.durability_lag.seconds,
+      })),
+    ),
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_stored_bytes',
+    help: 'Storage process stored bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.stored_bytes,
+      })),
+    ),
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_kvstore_available_bytes',
+    help: 'Storage process KV store available bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.kvstore_available_bytes,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_kvstore_free_bytes',
+    help: 'Storage process KV store free bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.kvstore_free_bytes,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_kvstore_total_bytes',
+    help: 'Storage process KV store total bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.kvstore_total_bytes,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_kvstore_used_bytes',
+    help: 'Storage process KV store used bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.kvstore_used_bytes,
       })),
     ),
   };

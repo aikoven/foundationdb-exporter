@@ -370,7 +370,7 @@ export type FDBStatus = {
       [key: string]: ProcessStatus;
     };
     protocol_version: string;
-    qos: {
+    qos?: {
       batch_performance_limited_by: {
         description: string;
         name: string;
