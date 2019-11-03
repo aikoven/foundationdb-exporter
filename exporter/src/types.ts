@@ -294,7 +294,7 @@ export type FDBStatus = {
       average_partition_size_bytes: number;
       least_operating_space_bytes_log_server: number;
       least_operating_space_bytes_storage_server: number;
-      moving_data: {
+      moving_data?: {
         highest_priority: number;
         in_flight_bytes: number;
         in_queue_bytes: number;

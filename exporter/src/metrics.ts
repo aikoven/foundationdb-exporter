@@ -1,4 +1,4 @@
-import {FDBStatus} from './types';
+import {FDBStatus, ProcessRoleStatus} from './types';
 import {Metric} from './utils';
 
 export function* metrics(status: FDBStatus): IterableIterator<Metric> {
@@ -22,8 +22,16 @@ export function* metrics(status: FDBStatus): IterableIterator<Metric> {
     values: [{value: status.cluster.clients.count}],
   };
 
+  yield {
+    type: 'gauge',
+    name: 'fdb_datacenter_lag_seconds',
+    help: 'Datacenter lag in seconds',
+    values: [{value: status.cluster.datacenter_lag.seconds}],
+  };
+
   yield* latencyProbeMetrics(status.cluster.latency_probe);
   yield* workloadMetrics(status.cluster.workload);
+  yield* dataMetrics(status.cluster.data);
   yield* qosMetrics(status.cluster.qos);
   yield* processesMetrics(status.cluster.processes);
 }
@@ -127,9 +135,117 @@ function* workloadMetrics(
   };
 }
 
+function* dataMetrics(
+  data: FDBStatus['cluster']['data'],
+): IterableIterator<Metric> {
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_state',
+    help: 'Indicates data state',
+    values: [
+      {
+        labels: {state: data.state.name},
+        value: 1,
+      },
+    ],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_least_operating_space_log_server_bytes',
+    help: 'Operating space on most full log server',
+    values: [{value: data.least_operating_space_bytes_log_server}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_least_operating_space_storage_server_bytes',
+    help: 'Operating space on most full storage server',
+    values: [{value: data.least_operating_space_bytes_storage_server}],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_average_partition_size_bytes',
+    help: 'Average partition size',
+    values: [{value: data.average_partition_size_bytes}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_data_partitions_total',
+    help: 'Partitions count',
+    values: [{value: data.partitions_count}],
+  };
+
+  if (data.moving_data) {
+    yield {
+      type: 'gauge',
+      name: 'fdb_data_moving_in_flight_bytes',
+      help: 'Moving data in-flight bytes',
+      values: [{value: data.moving_data.in_flight_bytes}],
+    };
+    yield {
+      type: 'gauge',
+      name: 'fdb_data_moving_in_queue_bytes',
+      help: 'Moving data in-queue bytes',
+      values: [{value: data.moving_data.in_queue_bytes}],
+    };
+    yield {
+      type: 'counter',
+      name: 'fdb_data_moving_total_written_bytes',
+      help: 'Moving data total written bytes',
+      values: [{value: data.moving_data.total_written_bytes}],
+    };
+  }
+}
+
 function* qosMetrics(
   qos: FDBStatus['cluster']['qos'],
-): IterableIterator<Metric> {}
+): IterableIterator<Metric> {
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_limiting_storage_server_data_lag_seconds',
+    help: 'QoS limiting data lag among storage servers',
+    values: [{value: qos.limiting_data_lag_storage_server.seconds}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_limiting_storage_server_durability_lag_seconds',
+    help: 'QoS limiting durability lag among storage servers',
+    values: [{value: qos.limiting_durability_lag_storage_server.seconds}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_limiting_storage_server_queue_bytes',
+    help: 'QoS limiting queue bytes among storage servers',
+    values: [{value: qos.limiting_queue_bytes_storage_server}],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_worst_storage_server_data_lag_seconds',
+    help: 'QoS worst data lag among storage servers',
+    values: [{value: qos.worst_data_lag_storage_server.seconds}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_worst_storage_server_durability_lag_seconds',
+    help: 'QoS worst durability lag among storage servers',
+    values: [{value: qos.worst_durability_lag_storage_server.seconds}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_worst_storage_server_queue_bytes',
+    help: 'QoS worst queue bytes among storage servers',
+    values: [{value: qos.worst_queue_bytes_storage_server}],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_worst_log_server_queue_bytes',
+    help: 'QoS worst queue bytes among log servers',
+    values: [{value: qos.worst_queue_bytes_log_server}],
+  };
+}
 
 function* processesMetrics(
   processes: FDBStatus['cluster']['processes'],
@@ -346,4 +462,89 @@ function* processesRolesMetrics(
       })),
     ),
   };
+
+  yield* storageProcessesMetrics(processes);
+  yield* logProcessesMetrics(processes);
+}
+
+function* storageProcessesMetrics(
+  processes: FDBStatus['cluster']['processes'],
+): IterableIterator<Metric> {
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_data_lag_seconds',
+    help: 'Storage process data lag',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.data_lag.seconds,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_durability_lag_seconds',
+    help: 'Storage process durability lag',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.durability_lag.seconds,
+      })),
+    ),
+  };
+}
+
+function* logProcessesMetrics(
+  processes: FDBStatus['cluster']['processes'],
+): IterableIterator<Metric> {
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_log_queue_disk_available_bytes',
+    help: 'Log process queue disk available bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('log')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.queue_disk_available_bytes,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_log_queue_disk_free_bytes',
+    help: 'Log process queue disk free bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('log')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.queue_disk_free_bytes,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_log_queue_disk_total_bytes',
+    help: 'Log process queue disk total bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('log')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.queue_disk_total_bytes,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_log_queue_disk_used_bytes',
+    help: 'Log process queue disk used bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('log')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.queue_disk_used_bytes,
+      })),
+    ),
+  };
+}
+
+function isRole<Role extends ProcessRoleStatus['role']>(role: Role) {
+  return (
+    status: ProcessRoleStatus,
+  ): status is Extract<ProcessRoleStatus, {role: Role}> => status.role === role;
 }
