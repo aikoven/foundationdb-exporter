@@ -3208,7 +3208,7 @@
         },
         {
           "expr": "sum(rate(fdb_process_log_durable_bytes_total{job=\"$job\", address=~\"$log_processes\"}[$interval]))",
-          "legendFormat": "Input",
+          "legendFormat": "Durable",
           "refId": "B"
         }
       ],
