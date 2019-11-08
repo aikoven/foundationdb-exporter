@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1573210691418,
+  "iteration": 1573235130519,
   "links": [],
   "panels": [
     {
@@ -2662,7 +2662,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Durability Lag",
+      "title": "$storage_processes Durability Lag",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3303,7 +3303,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Data Rate",
+      "title": "$log_processes Data Rate",
       "tooltip": {
         "shared": true,
         "sort": 0,
