@@ -268,6 +268,60 @@ function* qosMetrics(
     help: 'QoS worst queue bytes among log servers',
     values: [{value: qos.worst_queue_bytes_log_server}],
   };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_released_transactions_per_second',
+    help: 'QoS released transactions per second',
+    values: [{value: qos.released_transactions_per_second}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_transactions_per_second_limit',
+    help: 'QoS transactions per second limit',
+    values: [{value: qos.transactions_per_second_limit}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_performance_limited_by',
+    help: 'Indicates the reason for limited performance',
+    values: [
+      {
+        labels: {
+          name: qos.performance_limited_by.name,
+          description: qos.performance_limited_by.description,
+        },
+        value: 1,
+      },
+    ],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_batch_released_transactions_per_second',
+    help: 'QoS released transactions per second',
+    values: [{value: qos.batch_released_transactions_per_second}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_batch_transactions_per_second_limit',
+    help: 'QoS transactions per second limit',
+    values: [{value: qos.batch_transactions_per_second_limit}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_qos_batch_performance_limited_by',
+    help: 'Indicates the reason for limited performance',
+    values: [
+      {
+        labels: {
+          name: qos.batch_performance_limited_by.name,
+          description: qos.batch_performance_limited_by.description,
+        },
+        value: 1,
+      },
+    ],
+  };
 }
 
 function* processesMetrics(
@@ -618,6 +672,29 @@ function* logProcessesMetrics(
       processStatus.roles.filter(isRole('log')).map(status => ({
         labels: {processId, address: processStatus.address},
         value: status.queue_disk_used_bytes,
+      })),
+    ),
+  };
+
+  yield {
+    type: 'counter',
+    name: 'fdb_process_log_input_bytes_total',
+    help: 'Log process input bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('log')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.input_bytes.counter,
+      })),
+    ),
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_process_log_durable_bytes_total',
+    help: 'Log process durable bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('log')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.durable_bytes.counter,
       })),
     ),
   };
