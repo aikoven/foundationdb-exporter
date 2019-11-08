@@ -1,8 +1,8 @@
 import * as fdb from 'foundationdb';
 import Koa = require('koa');
-import {renderMetric} from './utils';
+import {renderMetric, Metric} from './utils';
 import {FDBStatus} from './types';
-import {metrics} from './metrics'
+import {metrics} from './metrics';
 
 main().catch(err => console.error(err));
 
@@ -22,12 +22,23 @@ async function main() {
         'text/plain; version=0.0.4; charset=utf-8',
       );
 
+      const startTime = Date.now();
+
       const value = await db.get(statusKey);
 
       if (value != null) {
         const status = JSON.parse(value.toString()) as FDBStatus;
 
-        ctx.response.body = [...metrics(status)].map(renderMetric).join('\n');
+        const exporterLatencyMetric: Metric = {
+          type: 'gauge',
+          name: 'fdb_exporter_latency_seconds',
+          help: 'The latency of collecting metrics',
+          values: [{value: (Date.now() - startTime) / 1000}],
+        };
+
+        ctx.response.body = [exporterLatencyMetric, ...metrics(status)]
+          .map(renderMetric)
+          .join('\n');
       } else {
         ctx.response.body = '';
       }
@@ -44,4 +55,3 @@ async function main() {
 
   db.close();
 }
-
