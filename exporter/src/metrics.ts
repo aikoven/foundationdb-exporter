@@ -571,6 +571,29 @@ function* storageProcessesMetrics(
   };
 
   yield {
+    type: 'counter',
+    name: 'fdb_process_storage_input_bytes_total',
+    help: 'Storage process input bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.input_bytes.counter,
+      })),
+    ),
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_process_storage_durable_bytes_total',
+    help: 'Storage process durable bytes',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      processStatus.roles.filter(isRole('storage')).map(status => ({
+        labels: {processId, address: processStatus.address},
+        value: status.durable_bytes.counter,
+      })),
+    ),
+  };
+
+  yield {
     type: 'gauge',
     name: 'fdb_process_storage_stored_bytes',
     help: 'Storage process stored bytes',
