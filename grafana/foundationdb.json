@@ -344,7 +344,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "fdb_exporter_latency_seconds{job=\"$job\"}",
+          "expr": "max(fdb_exporter_latency_seconds{job=\"$job\"})",
           "legendFormat": "Latency",
           "refId": "A"
         }
