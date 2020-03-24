@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1584533796587,
+  "iteration": 1585039415972,
   "links": [],
   "panels": [
     {
@@ -4332,14 +4332,14 @@
           "value": "$__all"
         },
         "datasource": "$datasource",
-        "definition": "label_values(fdb_process_uptime_seconds, address)",
+        "definition": "label_values(fdb_process_uptime_seconds{job=\"$job\"}, address)",
         "hide": 0,
         "includeAll": true,
         "label": null,
         "multi": false,
         "name": "machines",
         "options": [],
-        "query": "label_values(fdb_process_uptime_seconds, address)",
+        "query": "label_values(fdb_process_uptime_seconds{job=\"$job\"}, address)",
         "refresh": 1,
         "regex": "/(.*):.*/",
         "skipUrlSync": false,
