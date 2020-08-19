@@ -3,8 +3,11 @@ export type Metric = {
   name: string;
   help: string;
   values: Array<{
-    labels?: {[key: string]: string};
-    value: number;
+    labels?: {[key: string]: string | undefined};
+    /**
+     * Undefined values are skipped.
+     */
+    value?: number;
   }>;
 };
 
@@ -15,11 +18,19 @@ export function renderMetric(metric: Metric): string {
 
   let values = '';
   for (const val of metric.values || []) {
+    if (val.value == null) {
+      continue;
+    }
+
     let labels = '';
 
     if (val.labels) {
       for (const key of Object.keys(val.labels)) {
-        labels += `${key}="${escapeLabelValue(val.labels[key])}",`;
+        const value = val.labels[key];
+
+        if (value != null) {
+          labels += `${key}="${escapeLabelValue(value)}",`;
+        }
       }
     }
 

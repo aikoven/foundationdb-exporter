@@ -9,7 +9,7 @@ main().catch(err => console.error(err));
 async function main() {
   fdb.setAPIVersion(600); // TODO: env
 
-  const db = await fdb.open(); // TODO: clusterFile env
+  const db = await fdb.open();
 
   const statusKey = Buffer.from('\xff\xff/status/json', 'ascii');
 

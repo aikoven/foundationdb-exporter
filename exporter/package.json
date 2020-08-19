@@ -10,7 +10,7 @@
   "devDependencies": {
     "@types/koa": "^2.0.51",
     "@types/node": "^10.12.9",
-    "typescript": "~3.6.4"
+    "typescript": "~3.9.0"
   },
   "dependencies": {
     "env-var": "^5.1.0",
