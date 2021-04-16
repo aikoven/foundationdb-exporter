@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1585039415972,
+  "iteration": 1618563568370,
   "links": [],
   "panels": [
     {
@@ -42,6 +42,12 @@
         "#299c46"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -73,7 +79,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -96,7 +101,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_database_available{job=\"$job\"}",
+          "expr": "fdb_database_available{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "refId": "A"
         }
@@ -136,6 +141,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -167,7 +178,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -190,7 +200,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_database_locked{job=\"$job\"}",
+          "expr": "fdb_database_locked{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "refId": "A"
         }
@@ -230,6 +240,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "short",
       "gauge": {
         "maxValue": 100,
@@ -261,7 +277,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -284,7 +299,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(fdb_clients_total{job=\"$job\"})",
+          "expr": "max(fdb_clients_total{namespace=\"$namespace\", job=\"$job\"})",
           "instant": false,
           "refId": "A"
         }
@@ -310,6 +325,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -318,6 +340,7 @@
         "x": 20,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 118,
       "legend": {
         "avg": false,
@@ -332,9 +355,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -344,7 +368,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_exporter_latency_seconds{job=\"$job\"})",
+          "expr": "max(fdb_exporter_latency_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Latency",
           "refId": "A"
         }
@@ -411,6 +435,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -419,6 +450,7 @@
         "x": 0,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 40,
       "legend": {
         "avg": false,
@@ -433,9 +465,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -445,17 +478,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_workload_operations_read_requests_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_operations_read_requests_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Read requests",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(fdb_workload_operations_reads_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_operations_reads_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Reads",
           "refId": "B"
         },
         {
-          "expr": "sum(rate(fdb_workload_operations_writes_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_operations_writes_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Writes",
           "refId": "C"
         }
@@ -507,6 +540,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -515,6 +555,7 @@
         "x": 5,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 42,
       "legend": {
         "avg": false,
@@ -529,9 +570,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -541,12 +583,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_workload_transactions_started_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_transactions_started_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Transactions started",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(fdb_workload_transactions_committed_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_transactions_committed_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Transactions committed",
           "refId": "B"
         }
@@ -598,6 +640,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -606,6 +655,7 @@
         "x": 10,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 44,
       "legend": {
         "avg": false,
@@ -620,9 +670,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -632,7 +683,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_workload_transactions_conflicted_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_transactions_conflicted_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Transactions conflicted",
           "refId": "A"
         }
@@ -684,6 +735,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -692,6 +750,7 @@
         "x": 15,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 46,
       "legend": {
         "avg": false,
@@ -706,9 +765,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -718,7 +778,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_workload_keys_read_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_keys_read_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Keys read",
           "refId": "A"
         }
@@ -770,6 +830,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -778,6 +845,7 @@
         "x": 20,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 48,
       "legend": {
         "avg": false,
@@ -792,9 +860,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -804,12 +873,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_workload_bytes_read_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_bytes_read_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Bytes read",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(fdb_workload_bytes_written_total{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_workload_bytes_written_total{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Bytes written",
           "refId": "B"
         }
@@ -879,6 +948,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -910,7 +985,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -933,7 +1007,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_qos_performance_limited_by{job=\"$job\"}",
+          "expr": "fdb_qos_performance_limited_by{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "legendFormat": "{{description}}",
           "refId": "A"
@@ -960,6 +1034,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -968,6 +1049,7 @@
         "x": 8,
         "y": 11
       },
+      "hiddenSeries": false,
       "id": 93,
       "legend": {
         "avg": false,
@@ -982,9 +1064,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -994,12 +1077,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_qos_transactions_per_second_limit{job=\"$job\"})",
+          "expr": "max(fdb_qos_transactions_per_second_limit{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Transactions per second limit",
           "refId": "A"
         },
         {
-          "expr": "max(fdb_qos_batch_transactions_per_second_limit{job=\"$job\"})",
+          "expr": "max(fdb_qos_batch_transactions_per_second_limit{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Batch transactions per second limit",
           "refId": "B"
         }
@@ -1051,6 +1134,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1059,6 +1149,7 @@
         "x": 16,
         "y": 11
       },
+      "hiddenSeries": false,
       "id": 97,
       "legend": {
         "avg": false,
@@ -1073,9 +1164,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1085,12 +1177,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_qos_released_transactions_per_second{job=\"$job\"})",
+          "expr": "max(fdb_qos_released_transactions_per_second{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Released transactions per second",
           "refId": "A"
         },
         {
-          "expr": "max(fdb_qos_batch_released_transactions_per_second{job=\"$job\"})",
+          "expr": "max(fdb_qos_batch_released_transactions_per_second{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Batch released transactions per second",
           "refId": "B"
         }
@@ -1146,6 +1238,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1177,7 +1275,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1200,7 +1297,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_qos_batch_performance_limited_by{job=\"$job\"}",
+          "expr": "fdb_qos_batch_performance_limited_by{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "legendFormat": "{{description}}",
           "refId": "A"
@@ -1227,6 +1324,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1235,6 +1339,7 @@
         "x": 0,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 89,
       "legend": {
         "avg": false,
@@ -1249,9 +1354,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1261,12 +1367,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_qos_limiting_storage_server_durability_lag_seconds{job=\"$job\"})",
+          "expr": "max(fdb_qos_limiting_storage_server_durability_lag_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Limiting",
           "refId": "A"
         },
         {
-          "expr": "max(fdb_qos_worst_storage_server_durability_lag_seconds{job=\"$job\"})",
+          "expr": "max(fdb_qos_worst_storage_server_durability_lag_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Worst",
           "refId": "B"
         }
@@ -1335,6 +1441,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1343,6 +1456,7 @@
         "x": 6,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 81,
       "legend": {
         "avg": false,
@@ -1357,9 +1471,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1369,12 +1484,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_qos_limiting_storage_server_data_lag_seconds{job=\"$job\"})",
+          "expr": "max(fdb_qos_limiting_storage_server_data_lag_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Limiting",
           "refId": "A"
         },
         {
-          "expr": "max(fdb_qos_worst_storage_server_data_lag_seconds{job=\"$job\"})",
+          "expr": "max(fdb_qos_worst_storage_server_data_lag_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Worst",
           "refId": "B"
         }
@@ -1444,6 +1559,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1452,6 +1574,7 @@
         "x": 12,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 90,
       "legend": {
         "avg": false,
@@ -1467,10 +1590,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "6.4.2",
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1480,14 +1603,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_qos_limiting_storage_server_queue_bytes{job=\"$job\"})",
+          "expr": "max(fdb_qos_limiting_storage_server_queue_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "format": "time_series",
           "instant": false,
           "legendFormat": "Limiting",
           "refId": "A"
         },
         {
-          "expr": "max(fdb_qos_worst_storage_server_queue_bytes{job=\"$job\"})",
+          "expr": "max(fdb_qos_worst_storage_server_queue_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "format": "time_series",
           "instant": false,
           "legendFormat": "Worst",
@@ -1541,6 +1664,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1549,6 +1679,7 @@
         "x": 18,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 91,
       "legend": {
         "avg": false,
@@ -1563,9 +1694,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1575,7 +1707,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_qos_worst_log_server_queue_bytes{job=\"$job\"})",
+          "expr": "max(fdb_qos_worst_log_server_queue_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Worst",
           "refId": "B"
         }
@@ -1645,6 +1777,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1676,7 +1814,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1699,7 +1836,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_data_state{job=\"$job\"}",
+          "expr": "fdb_data_state{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "legendFormat": "{{state}}",
           "refId": "A"
@@ -1730,6 +1867,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -1761,7 +1904,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1784,7 +1926,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(fdb_data_total_disk_used_bytes{job=\"$job\"})",
+          "expr": "max(fdb_data_total_disk_used_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "instant": false,
           "legendFormat": "",
           "refId": "A"
@@ -1815,6 +1957,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -1846,7 +1994,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1869,7 +2016,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(fdb_data_total_kv_size_bytes{job=\"$job\"})",
+          "expr": "max(fdb_data_total_kv_size_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "instant": false,
           "legendFormat": "",
           "refId": "A"
@@ -1900,6 +2047,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -1931,7 +2084,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -1954,7 +2106,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "min(fdb_data_least_operating_space_storage_server_bytes{job=\"$job\"})",
+          "expr": "min(fdb_data_least_operating_space_storage_server_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "instant": false,
           "legendFormat": "",
           "refId": "A"
@@ -1985,6 +2137,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -2016,7 +2174,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2039,7 +2196,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "min(fdb_data_least_operating_space_log_server_bytes{job=\"$job\"})",
+          "expr": "min(fdb_data_least_operating_space_log_server_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "instant": false,
           "legendFormat": "",
           "refId": "A"
@@ -2066,6 +2223,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2074,6 +2238,7 @@
         "x": 0,
         "y": 31
       },
+      "hiddenSeries": false,
       "id": 61,
       "legend": {
         "avg": false,
@@ -2088,9 +2253,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2100,7 +2266,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(fdb_data_moving_in_queue_bytes{job=\"$job\"})",
+          "expr": "sum(fdb_data_moving_in_queue_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "In-queue bytes",
           "refId": "A"
         }
@@ -2152,6 +2318,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2160,6 +2333,7 @@
         "x": 8,
         "y": 31
       },
+      "hiddenSeries": false,
       "id": 60,
       "legend": {
         "avg": false,
@@ -2174,9 +2348,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2186,7 +2361,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(fdb_data_moving_in_flight_bytes{job=\"$job\"})",
+          "expr": "sum(fdb_data_moving_in_flight_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "In-flight bytes",
           "refId": "A"
         }
@@ -2238,6 +2413,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2246,6 +2428,7 @@
         "x": 16,
         "y": 31
       },
+      "hiddenSeries": false,
       "id": 62,
       "legend": {
         "avg": false,
@@ -2260,9 +2443,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -2272,7 +2456,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fdb_data_moving_total_written_bytes{job=\"$job\"}[$interval]))",
+          "expr": "sum(rate(fdb_data_moving_total_written_bytes{namespace=\"$namespace\", job=\"$job\"}[$interval]))",
           "legendFormat": "Moving data rate",
           "refId": "A"
         }
@@ -2328,6 +2512,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -2359,7 +2549,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2382,7 +2571,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(fdb_data_system_kv_size_bytes{job=\"$job\"})",
+          "expr": "max(fdb_data_system_kv_size_bytes{namespace=\"$namespace\", job=\"$job\"})",
           "instant": false,
           "legendFormat": "",
           "refId": "A"
@@ -2413,6 +2602,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -2444,7 +2639,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2467,7 +2661,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_data_average_partition_size_bytes{job=\"$job\"}",
+          "expr": "fdb_data_average_partition_size_bytes{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "legendFormat": "",
           "refId": "A"
@@ -2498,6 +2692,12 @@
         "#d44a3a"
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -2529,7 +2729,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -2552,7 +2751,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "fdb_data_partitions_total{job=\"$job\"}",
+          "expr": "fdb_data_partitions_total{namespace=\"$namespace\", job=\"$job\"}",
           "instant": true,
           "legendFormat": "",
           "refId": "A"
@@ -2633,12 +2832,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(fdb_process_storage_input_bytes_total{job=\"$job\", address=~\"$storage_processes\"}[$interval]))",
+              "expr": "sum(rate(fdb_process_storage_input_bytes_total{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"}[$interval]))",
               "legendFormat": "Input",
               "refId": "A"
             },
             {
-              "expr": "sum(rate(fdb_process_storage_durable_bytes_total{job=\"$job\", address=~\"$storage_processes\"}[$interval]))",
+              "expr": "sum(rate(fdb_process_storage_durable_bytes_total{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"}[$interval]))",
               "legendFormat": "Durable",
               "refId": "B"
             }
@@ -2733,12 +2932,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_storage_data_lag_seconds{job=\"$job\", address=~\"$storage_processes\"})",
+              "expr": "max(fdb_process_storage_data_lag_seconds{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"})",
               "legendFormat": "Data lag",
               "refId": "A"
             },
             {
-              "expr": "max(fdb_process_storage_durability_lag_seconds{job=\"$job\", address=~\"$storage_processes\"})",
+              "expr": "max(fdb_process_storage_durability_lag_seconds{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"})",
               "legendFormat": "Durability lag",
               "refId": "B"
             }
@@ -2850,7 +3049,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_cpu_usage_cores{job=\"$job\", address=~\"$storage_processes\"})",
+              "expr": "max(fdb_process_cpu_usage_cores{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"})",
               "legendFormat": "CPU cores",
               "refId": "A"
             }
@@ -2963,7 +3162,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_disk_usage_ratio{job=\"$job\", address=~\"$storage_processes\"})",
+              "expr": "max(fdb_process_disk_usage_ratio{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"})",
               "legendFormat": "Disk utilization",
               "refId": "A"
             }
@@ -3076,7 +3275,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_network_megabits_received_rate{job=\"$job\", address=~\"$storage_processes\"} + fdb_process_network_megabits_sent_rate)",
+              "expr": "max(fdb_process_network_megabits_received_rate{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"} + fdb_process_network_megabits_sent_rate)",
               "legendFormat": "Disk utilization",
               "refId": "A"
             }
@@ -3196,7 +3395,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "max(fdb_process_storage_stored_bytes{job=\"$job\", address=~\"$storage_processes\"})",
+              "expr": "max(fdb_process_storage_stored_bytes{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"})",
               "legendFormat": "Stored bytes",
               "refId": "A"
             }
@@ -3280,12 +3479,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(fdb_process_log_input_bytes_total{job=\"$job\", address=~\"$log_processes\"}[$interval]))",
+              "expr": "sum(rate(fdb_process_log_input_bytes_total{namespace=\"$namespace\", job=\"$job\", address=~\"$log_processes\"}[$interval]))",
               "legendFormat": "Input",
               "refId": "A"
             },
             {
-              "expr": "sum(rate(fdb_process_log_durable_bytes_total{job=\"$job\", address=~\"$log_processes\"}[$interval]))",
+              "expr": "sum(rate(fdb_process_log_durable_bytes_total{namespace=\"$namespace\", job=\"$job\", address=~\"$log_processes\"}[$interval]))",
               "legendFormat": "Durable",
               "refId": "B"
             }
@@ -3380,7 +3579,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_cpu_usage_cores{job=\"$job\", address=~\"$log_processes\"})",
+              "expr": "max(fdb_process_cpu_usage_cores{namespace=\"$namespace\", job=\"$job\", address=~\"$log_processes\"})",
               "legendFormat": "CPU cores",
               "refId": "A"
             }
@@ -3493,7 +3692,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_disk_usage_ratio{job=\"$job\", address=~\"$log_processes\"})",
+              "expr": "max(fdb_process_disk_usage_ratio{namespace=\"$namespace\", job=\"$job\", address=~\"$log_processes\"})",
               "legendFormat": "Disk utilization",
               "refId": "A"
             }
@@ -3606,7 +3805,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "max(fdb_process_network_megabits_received_rate{job=\"$job\", address=~\"$log_processes\"} + fdb_process_network_megabits_sent_rate)",
+              "expr": "max(fdb_process_network_megabits_received_rate{namespace=\"$namespace\", job=\"$job\", address=~\"$log_processes\"} + fdb_process_network_megabits_sent_rate)",
               "legendFormat": "Disk utilization",
               "refId": "A"
             }
@@ -3677,6 +3876,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3685,6 +3891,7 @@
         "x": 0,
         "y": 48
       },
+      "hiddenSeries": false,
       "id": 32,
       "legend": {
         "avg": false,
@@ -3699,9 +3906,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3711,7 +3919,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_latency_probe_read_seconds{job=\"$job\"})",
+          "expr": "max(fdb_latency_probe_read_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Time to perform a single read",
           "refId": "A"
         }
@@ -3763,6 +3971,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3771,6 +3986,7 @@
         "x": 8,
         "y": 48
       },
+      "hiddenSeries": false,
       "id": 33,
       "legend": {
         "avg": false,
@@ -3785,9 +4001,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3797,7 +4014,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_latency_probe_commit_seconds{job=\"$job\"})",
+          "expr": "max(fdb_latency_probe_commit_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Time to commit a sample transaction",
           "refId": "A"
         }
@@ -3849,6 +4066,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3857,6 +4081,7 @@
         "x": 16,
         "y": 48
       },
+      "hiddenSeries": false,
       "id": 34,
       "legend": {
         "avg": false,
@@ -3871,9 +4096,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3883,17 +4109,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max(fdb_latency_probe_transaction_start_seconds{job=\"$job\"})",
+          "expr": "max(fdb_latency_probe_transaction_start_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Time to start a sample transaction at normal priority",
           "refId": "A"
         },
         {
-          "expr": "max(fdb_latency_probe_immediate_priority_transaction_start_seconds{job=\"$job\"})",
+          "expr": "max(fdb_latency_probe_immediate_priority_transaction_start_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Time to start a sample transaction at system immediate priority",
           "refId": "B"
         },
         {
-          "expr": "max(fdb_latency_probe_batch_priority_transaction_start_seconds{job=\"$job\"})",
+          "expr": "max(fdb_latency_probe_batch_priority_transaction_start_seconds{namespace=\"$namespace\", job=\"$job\"})",
           "legendFormat": "Time to start a sample transaction at batch priority",
           "refId": "C"
         }
@@ -3956,6 +4182,12 @@
     {
       "columns": [],
       "datasource": "$datasource",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 9,
@@ -3965,15 +4197,14 @@
       },
       "id": 23,
       "maxPerRow": 3,
-      "options": {},
       "pageSize": null,
       "repeat": "machines",
       "repeatDirection": "v",
       "scopedVars": {
         "machines": {
           "selected": false,
-          "text": "",
-          "value": ""
+          "text": "192.168.16.3",
+          "value": "192.168.16.3"
         }
       },
       "showHeader": true,
@@ -3984,12 +4215,14 @@
       "styles": [
         {
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "hidden"
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4006,6 +4239,7 @@
         },
         {
           "alias": "CPU",
+          "align": "auto",
           "colorMode": "cell",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -4023,6 +4257,7 @@
         },
         {
           "alias": "Memory Used",
+          "align": "auto",
           "colorMode": "cell",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -4042,6 +4277,7 @@
         },
         {
           "alias": "Network IO",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4060,6 +4296,7 @@
         },
         {
           "alias": "Disk IO",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4076,6 +4313,7 @@
         },
         {
           "alias": "Disk Used",
+          "align": "auto",
           "colorMode": "cell",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -4095,6 +4333,7 @@
         },
         {
           "alias": "Disk Utilization",
+          "align": "auto",
           "colorMode": "cell",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -4114,6 +4353,7 @@
         },
         {
           "alias": "Network Connections",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4130,6 +4370,7 @@
         },
         {
           "alias": "Memory",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4146,6 +4387,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4162,6 +4404,7 @@
         },
         {
           "alias": "Role",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4178,6 +4421,7 @@
         },
         {
           "alias": "Run Loop Utilization",
+          "align": "auto",
           "colorMode": "cell",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -4198,70 +4442,70 @@
       ],
       "targets": [
         {
-          "expr": "sum(fdb_process_cpu_usage_cores{job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
+          "expr": "sum(fdb_process_cpu_usage_cores{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "CPU",
           "refId": "A"
         },
         {
-          "expr": "sum(fdb_process_memory_used_bytes{job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
+          "expr": "sum(fdb_process_memory_used_bytes{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Memory",
           "refId": "H"
         },
         {
-          "expr": "sum(fdb_process_memory_used_bytes{job=\"$job\", address=~\"($machines):\\\\d+\"} / fdb_process_memory_limit_bytes) by (address)",
+          "expr": "sum(fdb_process_memory_used_bytes{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"} / fdb_process_memory_limit_bytes) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Memory Used",
           "refId": "B"
         },
         {
-          "expr": "sum(rate(fdb_process_disk_reads_total{job=\"$job\", address=~\"($machines):\\\\d+\"}[$interval]) + rate(fdb_process_disk_writes_total[$interval])) by (address)",
+          "expr": "sum(rate(fdb_process_disk_reads_total{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}[$interval]) + rate(fdb_process_disk_writes_total[$interval])) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Disk IO",
           "refId": "D"
         },
         {
-          "expr": "sum(1.0 - fdb_process_disk_free_bytes{job=\"$job\", address=~\"($machines):\\\\d+\"} / fdb_process_disk_total_bytes) by (address)",
+          "expr": "sum(1.0 - fdb_process_disk_free_bytes{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"} / fdb_process_disk_total_bytes) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Disk Used",
           "refId": "E"
         },
         {
-          "expr": "sum(fdb_process_disk_usage_ratio{job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
+          "expr": "sum(fdb_process_disk_usage_ratio{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Disk Utilization",
           "refId": "F"
         },
         {
-          "expr": "sum(fdb_process_network_megabits_received_rate{job=\"$job\", address=~\"($machines):\\\\d+\"} + fdb_process_network_megabits_sent_rate) by (address)",
+          "expr": "sum(fdb_process_network_megabits_received_rate{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"} + fdb_process_network_megabits_sent_rate) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Network IO",
           "refId": "C"
         },
         {
-          "expr": "sum(fdb_process_network_current_connections_total{job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
+          "expr": "sum(fdb_process_network_current_connections_total{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Network Connections",
           "refId": "G"
         },
         {
-          "expr": "sum(fdb_process_run_loop_busy_ratio{job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
+          "expr": "sum(fdb_process_run_loop_busy_ratio{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address)",
           "format": "table",
           "instant": true,
           "legendFormat": "Run Loop Utilization",
           "refId": "J"
         },
         {
-          "expr": "sum(fdb_process_role{job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address, role)",
+          "expr": "sum(fdb_process_role{namespace=\"$namespace\", job=\"$job\", address=~\"($machines):\\\\d+\"}) by (address, role)",
           "format": "table",
           "instant": true,
           "legendFormat": "Role",
@@ -4272,21 +4516,23 @@
       "timeShift": null,
       "title": "Machine $machines",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 20,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "tags": [],
-          "text": "default",
-          "value": "default"
+          "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -4294,6 +4540,7 @@
         "name": "datasource",
         "options": [],
         "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -4303,22 +4550,59 @@
         "allValue": null,
         "current": {
           "isNone": true,
+          "selected": true,
           "text": "None",
           "value": ""
         },
         "datasource": "$datasource",
-        "definition": "label_values(fdb_database_available, job)",
+        "definition": "label_values(fdb_database_available, namespace)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "namespace",
+        "options": [],
+        "query": {
+          "query": "label_values(fdb_database_available, namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "foundationdb",
+          "value": "foundationdb"
+        },
+        "datasource": "$datasource",
+        "definition": "label_values(fdb_database_available{namespace=\"$namespace\"}, job)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
         "name": "job",
         "options": [],
-        "query": "label_values(fdb_database_available, job)",
+        "query": {
+          "query": "label_values(fdb_database_available{namespace=\"$namespace\"}, job)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -4328,22 +4612,28 @@
       {
         "allValue": null,
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
         "datasource": "$datasource",
-        "definition": "label_values(fdb_process_uptime_seconds{job=\"$job\"}, address)",
+        "definition": "label_values(fdb_process_uptime_seconds{namespace=\"$namespace\", job=\"$job\"}, address)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": null,
         "multi": false,
         "name": "machines",
         "options": [],
-        "query": "label_values(fdb_process_uptime_seconds{job=\"$job\"}, address)",
+        "query": {
+          "query": "label_values(fdb_process_uptime_seconds{namespace=\"$namespace\", job=\"$job\"}, address)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "/(.*):.*/",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -4353,24 +4643,32 @@
       {
         "allValue": null,
         "current": {
-          "text": "All",
+          "selected": true,
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
         },
         "datasource": "$datasource",
-        "definition": "label_values(fdb_process_storage_data_lag_seconds, address) ",
+        "definition": "label_values(fdb_process_storage_data_lag_seconds{namespace=\"$namespace\", job=\"$job\"}, address) ",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "storage processes",
         "multi": true,
         "name": "storage_processes",
         "options": [],
-        "query": "label_values(fdb_process_storage_data_lag_seconds, address) ",
+        "query": {
+          "query": "label_values(fdb_process_storage_data_lag_seconds{namespace=\"$namespace\", job=\"$job\"}, address) ",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -4380,24 +4678,32 @@
       {
         "allValue": null,
         "current": {
-          "text": "All",
+          "selected": true,
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
         },
         "datasource": "$datasource",
-        "definition": "label_values(fdb_process_log_input_bytes_total, address) ",
+        "definition": "label_values(fdb_process_log_input_bytes_total{namespace=\"$namespace\", job=\"$job\"}, address) ",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "log processes",
         "multi": true,
         "name": "log_processes",
         "options": [],
-        "query": "label_values(fdb_process_log_input_bytes_total, address) ",
+        "query": {
+          "query": "label_values(fdb_process_log_input_bytes_total{namespace=\"$namespace\", job=\"$job\"}, address) ",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -4409,9 +4715,12 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
+          "selected": false,
           "text": "auto",
           "value": "$__auto_interval_interval"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "label": null,
         "name": "interval",
