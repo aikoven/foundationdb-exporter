@@ -24,14 +24,14 @@ services:
       - '127.0.0.1:4500:4500'
 
   prometheus:
-    image: prom/prometheus:v2.13.1
+    image: prom/prometheus:v2.35.0
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     # ports:
     #   - '127.0.0.1:9090:9090'
 
   grafana:
-    image: grafana/grafana:7.4.0
+    image: grafana/grafana:8.5.3
     volumes:
       - ./grafana:/etc/grafana
     depends_on:
