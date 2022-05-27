@@ -4,18 +4,22 @@ import {renderMetric, Metric} from './utils';
 import {FDBStatus} from './types';
 import {metrics} from './metrics';
 
-main().catch(err => console.error(err));
+main().catch((err) => {
+  console.error(err);
+
+  process.exit(1);
+});
 
 async function main() {
-  fdb.setAPIVersion(600); // TODO: env
+  fdb.setAPIVersion(620); // TODO: env
 
-  const db = await fdb.open();
+  const db = fdb.open();
 
   const statusKey = Buffer.from('\xff\xff/status/json', 'ascii');
 
   const app = new Koa();
 
-  app.use(async ctx => {
+  app.use(async (ctx) => {
     if (ctx.request.path === '/metrics') {
       ctx.response.append(
         'Content-Type',
@@ -47,10 +51,10 @@ async function main() {
 
   const server = app.listen(9444);
 
-  await new Promise(resolve => process.on('SIGTERM', resolve));
+  await new Promise<void>((resolve) => process.on('SIGTERM', () => resolve()));
 
-  await new Promise((resolve, reject) =>
-    server.close(err => (err == null ? resolve() : reject(err))),
+  await new Promise<void>((resolve, reject) =>
+    server.close((err) => (err == null ? resolve() : reject(err))),
   );
 
   db.close();

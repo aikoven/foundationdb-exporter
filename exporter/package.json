@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "env-var": "^5.1.0",
-    "foundationdb": "^0.10.3",
+    "foundationdb": "^1.1.3",
     "koa": "^2.11.0"
   }
 }
