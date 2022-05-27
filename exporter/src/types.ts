@@ -30,6 +30,7 @@ export type MachineStatus = {
   };
   excluded?: boolean;
   locality?: {
+    instance_id?: string;
     machineid?: string;
     processid?: string;
     zoneid?: string;
@@ -192,6 +193,7 @@ export type ProcessStatus = {
   cpu?: {
     usage_cores?: number;
   };
+  degraded?: boolean;
   disk?: {
     busy?: number;
     free_bytes?: number;
@@ -210,6 +212,7 @@ export type ProcessStatus = {
   excluded?: boolean;
   fault_domain?: string;
   locality?: {
+    instance_id?: string;
     machineid?: string;
     processid?: string;
     zoneid?: string;
@@ -239,6 +242,9 @@ export type ProcessStatus = {
     megabits_sent?: {
       hz?: number;
     };
+    tls_policy_failures?: {
+      hz?: number;
+    }
   };
   roles?: ProcessRoleStatus[];
   run_loop_busy?: number;
@@ -276,6 +282,11 @@ export type FDBStatus = {
           log_group?: string;
         }[];
         count?: number;
+        max_protocol_clients?: {
+          address?: string;
+          log_group?: string;
+        }[],
+        max_protocol_count?: number;
         protocol_version?: string;
         source_version?: string;
       }[];
@@ -341,6 +352,7 @@ export type FDBStatus = {
     };
     layers?: {
       _valid?: boolean;
+      _error?: string;
       backup?: {
         blob_recent_io?: {
           bytes_per_second?: number;
@@ -408,6 +420,7 @@ export type FDBStatus = {
       worst_version_lag_storage_server?: number;
     };
     recovery_state?: {
+      active_generations?: number;
       description?: string;
       name?: string;
     };

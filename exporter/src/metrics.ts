@@ -33,6 +33,7 @@ export function* metrics(status: FDBStatus): IterableIterator<Metric> {
   yield* workloadMetrics(status.cluster?.workload);
   yield* dataMetrics(status.cluster?.data);
   yield* qosMetrics(status.cluster?.qos);
+  yield* recoveryStateMetrics(status.cluster?.recovery_state);
   yield* processesMetrics(status.cluster?.processes);
 }
 
@@ -344,6 +345,36 @@ function* qosMetrics(
   }
 }
 
+function* recoveryStateMetrics(
+  recoveryState: NonNullable<FDBStatus['cluster']>['recovery_state'],
+): IterableIterator<Metric> {
+  if (!recoveryState) {
+    return;
+  }
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_recovery_state',
+    help: 'Recovery state info',
+    values: [
+      {
+        labels: {
+          name: recoveryState.name,
+          description: recoveryState.description,
+        },
+        value: 1,
+      },
+    ],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_recovery_state_active_generations',
+    help: 'Recovery state active generations count',
+    values: [{value: recoveryState.active_generations}],
+  };
+}
+
 function* processesMetrics(
   processes: NonNullable<FDBStatus['cluster']>['processes'],
 ): IterableIterator<Metric> {
@@ -371,6 +402,15 @@ function* processesMetrics(
         classType: status.class_type,
       },
       value: 1,
+    })),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_degraded',
+    help: 'Whether or not process is degraded. 1 if is, 0 otherwise',
+    values: Object.entries(processes).map(([processId, status]) => ({
+      labels: {processId, address: status.address},
+      value: status.degraded ? 1 : 0,
     })),
   };
   yield {
