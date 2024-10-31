@@ -11,7 +11,7 @@ main().catch((err) => {
 });
 
 async function main() {
-  fdb.setAPIVersion(620); // TODO: env
+  fdb.setAPIVersion(630); // TODO: env
 
   const db = fdb.open();
 

@@ -4,6 +4,7 @@ services:
   exporter:
     image: aikoven/foundationdb-exporter:${BUILD_TAG:-latest}
     build: ./exporter
+    platform: linux/amd64
     environment:
       # this is the default
       FDB_CLUSTER_FILE: /etc/foundationdb/fdb.cluster
