@@ -4,6 +4,8 @@ import {renderMetric, Metric} from './utils';
 import {FDBStatus} from './types';
 import {metrics} from './metrics';
 
+fdb.setAPIVersion(710); // TODO: env
+
 main().catch((err) => {
   console.error(err);
 
@@ -11,8 +13,6 @@ main().catch((err) => {
 });
 
 async function main() {
-  fdb.setAPIVersion(630); // TODO: env
-
   const db = fdb.open();
 
   const statusKey = Buffer.from('\xff\xff/status/json', 'ascii');

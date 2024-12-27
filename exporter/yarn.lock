@@ -216,10 +216,10 @@ fdb-tuple@^1.0.0:
   resolved "https://registry.yarnpkg.com/fdb-tuple/-/fdb-tuple-1.0.0.tgz#757f5b76264bdcc75f87773751cce844390dde44"
   integrity sha512-8jSvKPCYCgTpi9Pt87qlfTk6griyMx4Gk3Xv31Dp72Qp8b6XgIyFsMm8KzPmFJ9iJ8K4pGvRxvOS8D0XGnrkjw==
 
-foundationdb@^1.1.3:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/foundationdb/-/foundationdb-1.1.4.tgz#58d8c0458549be057512df68c724399cb863cb4e"
-  integrity sha512-Nff4fS7Nd+i9UmU0MBZ/43UNE+jyFUkaUZ1c0tzD8XOj9YzazLAHvjPH9MlpNAFeWvellI9ALK47EfqPCQxBDQ==
+foundationdb@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/foundationdb/-/foundationdb-2.0.1.tgz#9204c3bf659445398670f4ec38e45802b7b27a16"
+  integrity sha512-ZMmpAoEI88H8d4DWk6MzXf4Kw9pGaQrxNygVdz/7g+qwlMrjHvmxUQsQz1zG4176+B0YNY+ufgmcT40kEv/TnQ==
   dependencies:
     fdb-tuple "^1.0.0"
     node-gyp-build "^4.2.3"

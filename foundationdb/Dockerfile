@@ -1,4 +1,4 @@
-FROM foundationdb/foundationdb:6.3.23
+FROM foundationdb/foundationdb:7.3.56
 
 COPY run-and-configure.sh scripts/
 RUN chmod a+x scripts/run-and-configure.sh
