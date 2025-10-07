@@ -2640,10 +2640,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -2730,10 +2726,6 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_storage_read_latency_median{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"}",
               "hide": false,
@@ -2742,10 +2734,6 @@
               "refId": "B"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_storage_read_latency_p95{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"}",
               "hide": false,
@@ -2754,10 +2742,6 @@
               "refId": "C"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_storage_read_latency_p99{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"}",
               "hide": false,
@@ -2766,10 +2750,6 @@
               "refId": "D"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_storage_read_latency_max{namespace=\"$namespace\", job=\"$job\", address=~\"$storage_processes\"}",
               "hide": false,
@@ -3475,10 +3455,6 @@
       "id": 124,
       "panels": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -3565,10 +3541,6 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_batching_window_size_median{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3577,10 +3549,6 @@
               "refId": "B"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_batching_window_size_p95{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3589,10 +3557,6 @@
               "refId": "C"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_batching_window_size_p99{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3601,10 +3565,6 @@
               "refId": "D"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_batching_window_size_max{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3617,10 +3577,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -3707,10 +3663,6 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_commit_latency_median{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3719,10 +3671,6 @@
               "refId": "B"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_commit_latency_p95{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3731,10 +3679,6 @@
               "refId": "C"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_commit_latency_p99{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3743,10 +3687,6 @@
               "refId": "D"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_commit_proxy_commit_latency_max{namespace=\"$namespace\", job=\"$job\", address=~\"$commit_proxy_processes\"}",
               "hide": false,
@@ -3759,10 +3699,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -3861,10 +3797,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -3963,10 +3895,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4075,10 +4003,6 @@
       "id": 130,
       "panels": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4165,10 +4089,6 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_default_latency_median{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4177,10 +4097,6 @@
               "refId": "B"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_default_latency_p95{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4189,10 +4105,6 @@
               "refId": "C"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_default_latency_p99{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4201,10 +4113,6 @@
               "refId": "D"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_default_latency_max{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4217,10 +4125,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4307,10 +4211,6 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_batch_latency_median{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4319,10 +4219,6 @@
               "refId": "B"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_batch_latency_p95{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4331,10 +4227,6 @@
               "refId": "C"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_batch_latency_p99{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4343,10 +4235,6 @@
               "refId": "D"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
               "editorMode": "code",
               "expr": "fdb_process_grv_proxy_batch_latency_max{namespace=\"$namespace\", job=\"$job\", address=~\"$grv_proxy_processes\"}",
               "hide": false,
@@ -4359,10 +4247,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4461,10 +4345,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4563,10 +4443,6 @@
           "type": "timeseries"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
           "fieldConfig": {
             "defaults": {
               "color": {
