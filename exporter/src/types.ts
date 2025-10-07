@@ -15,8 +15,11 @@ export type InstanceStatus = {
   configured_workers?: number;
   id?: string;
   last_updated?: number;
+  locality?: {};
   main_thread_cpu_seconds?: number;
   memory_usage?: number;
+  networkAddress?: string;
+  processID?: number;
   process_cpu_seconds?: number;
   resident_size?: number;
   version?: string;
@@ -76,6 +79,16 @@ export type ProcessRoleStorageStatus = {
     roughness?: number;
   };
   durable_version?: number;
+  fetched_versions?: {
+    counter?: number;
+    hz?: number;
+    roughness?: number;
+  };
+  fetches_from_logs?: {
+    counter?: number;
+    hz?: number;
+    roughness?: number;
+  };
   finished_queries?: {
     counter?: number;
     hz?: number;
@@ -94,9 +107,17 @@ export type ProcessRoleStorageStatus = {
   };
   kvstore_available_bytes?: number;
   kvstore_free_bytes?: number;
+  kvstore_inline_keys?: number;
   kvstore_total_bytes?: number;
+  kvstore_total_nodes?: number;
+  kvstore_total_size?: number;
   kvstore_used_bytes?: number;
   local_rate?: number;
+  low_priority_queries?: {
+    counter?: number;
+    hz?: number;
+    roughness?: number;
+  };
   mutation_bytes?: {
     counter?: number;
     hz?: number;
@@ -108,16 +129,99 @@ export type ProcessRoleStorageStatus = {
     roughness?: number;
   };
   query_queue_max?: number;
+  read_latency_statistics?: {
+    count?: number;
+    max?: number;
+    mean?: number;
+    median?: number;
+    min?: number;
+    p25?: number;
+    p90?: number;
+    p95?: number;
+    p99?: number;
+    'p99.9'?: number;
+  };
+  storage_metadata?: {
+    created_time_datetime?: string;
+    created_time_timestamp?: number;
+    storage_engine?: string;
+  };
   stored_bytes?: number;
   total_queries?: {
     counter?: number;
     hz?: number;
     roughness?: number;
   };
+  tss?: boolean;
 };
 
 export type ProcessRoleProxyStatus = {
   role: 'proxy';
+  id?: string;
+};
+
+export type ProcessRoleCommitProxyStatus = {
+  role: 'commit_proxy';
+  id?: string;
+  commit_batching_window_size?: {
+    count?: number;
+    max?: number;
+    mean?: number;
+    median?: number;
+    min?: number;
+    p25?: number;
+    p90?: number;
+    p95?: number;
+    p99?: number;
+    'p99.9'?: number;
+  };
+  commit_latency_statistics?: {
+    count?: number;
+    max?: number;
+    mean?: number;
+    median?: number;
+    min?: number;
+    p25?: number;
+    p90?: number;
+    p95?: number;
+    p99?: number;
+    'p99.9'?: number;
+  };
+};
+
+export type ProcessRoleGrvProxyStatus = {
+  role: 'grv_proxy';
+  id?: string;
+  grv_latency_statistics?: {
+    batch?: {
+      count?: number;
+      max?: number;
+      mean?: number;
+      median?: number;
+      min?: number;
+      p25?: number;
+      p90?: number;
+      p95?: number;
+      p99?: number;
+      'p99.9'?: number;
+    };
+    default?: {
+      count?: number;
+      max?: number;
+      mean?: number;
+      median?: number;
+      min?: number;
+      p25?: number;
+      p90?: number;
+      p95?: number;
+      p99?: number;
+      'p99.9'?: number;
+    };
+  };
+};
+
+export type ProcessRoleConsistencyScanStatus = {
+  role: 'consistency_scan';
   id?: string;
 };
 
@@ -177,6 +281,9 @@ export type ProcessRoleResolverStatus = {
 export type ProcessRoleStatus =
   | ProcessRoleStorageStatus
   | ProcessRoleProxyStatus
+  | ProcessRoleCommitProxyStatus
+  | ProcessRoleGrvProxyStatus
+  | ProcessRoleConsistencyScanStatus
   | ProcessRoleCoordinatorStatus
   | ProcessRoleClusterControllerStatus
   | ProcessRoleMasterStatus
@@ -221,6 +328,7 @@ export type ProcessStatus = {
   memory?: {
     available_bytes?: number;
     limit_bytes?: number;
+    rss_bytes?: number;
     unused_allocated_memory?: number;
     used_bytes?: number;
   };
@@ -261,6 +369,7 @@ export type FDBStatus = {
     coordinators?: {
       coordinators?: {
         address?: string;
+        protocol?: string;
         reachable?: boolean;
       }[];
       quorum_reachable?: boolean;
@@ -293,12 +402,35 @@ export type FDBStatus = {
     };
     cluster_controller_timestamp?: number;
     configuration?: {
+      backup_worker_enabled?: number;
+      blob_granules_enabled?: number;
+      commit_proxies?: number;
       coordinators_count?: number;
+      encryption_at_rest_mode?: string;
       excluded_servers?: unknown[];
+      grv_proxies?: number;
+      log_engine?: string;
+      log_routers?: number;
       log_spill?: number;
+      logs?: number;
+      perpetual_storage_wiggle?: number;
+      perpetual_storage_wiggle_engine?: string;
+      perpetual_storage_wiggle_locality?: string;
+      proxies?: number;
       redundancy_mode?: string;
+      remote_logs?: number;
+      resolvers?: number;
       storage_engine?: string;
+      storage_migration_type?: string;
+      tenant_mode?: string;
       usable_regions?: number;
+    };
+    configuration_database?: {
+      commits?: unknown[];
+      last_compacted_version?: number;
+      most_recent_version?: number;
+      mutations?: unknown[];
+      snapshot?: {};
     };
     connection_string?: string;
     data?: {
@@ -314,6 +446,7 @@ export type FDBStatus = {
       partitions_count?: number;
       state?: {
         healthy?: boolean;
+        min_replicas_remaining?: number;
         name?: string;
       };
       system_kv_size_bytes?: number;
@@ -322,6 +455,7 @@ export type FDBStatus = {
         primary?: boolean;
         state?: {
           healthy?: boolean;
+          min_replicas_remaining?: number;
           name?: string;
         };
         unhealthy_servers?: number;
@@ -330,7 +464,9 @@ export type FDBStatus = {
       total_kv_size_bytes?: number;
     };
     database_available?: boolean;
-    database_locked?: boolean;
+    database_lock_state?: {
+      locked?: boolean;
+    };
     datacenter_lag?: {
       seconds?: number;
       versions?: number;
@@ -342,6 +478,9 @@ export type FDBStatus = {
     };
     full_replication?: boolean;
     generation?: number;
+    idempotency_ids?: {
+      size_bytes?: number;
+    };
     incompatible_connections?: unknown[];
     latency_probe?: {
       batch_priority_transaction_start_seconds?: number;
@@ -370,10 +509,29 @@ export type FDBStatus = {
         total_workers?: number;
       };
     };
+    logs?: {
+      begin_version?: number;
+      current?: boolean;
+      epoch?: number;
+      log_fault_tolerance?: number;
+      log_interfaces?: {
+        address?: string;
+        healthy?: boolean;
+        id?: string;
+      }[];
+      log_replication_factor?: number;
+      log_write_anti_quorum?: number;
+      possibly_losing_data?: boolean;
+    }[];
+    lowest_compatible_protocol_version?: string;
     machines?: {
       [key: string]: MachineStatus;
     };
     messages?: unknown[];
+    metacluster?: {
+      cluster_type?: string;
+    };
+    newest_protocol_version?: string;
     page_cache?: {
       log_hit_rate?: number;
       storage_hit_rate?: number;
@@ -406,6 +564,17 @@ export type FDBStatus = {
         reason_id?: number;
       };
       released_transactions_per_second?: number;
+      throttled_tags?: {
+        auto?: {
+          busy_read?: number;
+          busy_write?: number;
+          count?: number;
+          recommended_only?: number;
+        };
+        manual?: {
+          count?: number;
+        };
+      };
       transactions_per_second_limit?: number;
       worst_data_lag_storage_server?: {
         seconds?: number;
@@ -423,6 +592,13 @@ export type FDBStatus = {
       active_generations?: number;
       description?: string;
       name?: string;
+      seconds_since_last_recovered?: number;
+    };
+    tenants?: {
+      num_tenants?: number;
+    };
+    version_epoch?: {
+      enabled?: boolean;
     };
     workload?: {
       bytes?: {
@@ -445,6 +621,21 @@ export type FDBStatus = {
         };
       };
       operations?: {
+        location_requests?: {
+          counter?: number;
+          hz?: number;
+          roughness?: number;
+        };
+        low_priority_reads?: {
+          counter?: number;
+          hz?: number;
+          roughness?: number;
+        };
+        memory_errors?: {
+          counter?: number;
+          hz?: number;
+          roughness?: number;
+        };
         read_requests?: {
           counter?: number;
           hz?: number;
@@ -468,6 +659,11 @@ export type FDBStatus = {
           roughness?: number;
         };
         conflicted?: {
+          counter?: number;
+          hz?: number;
+          roughness?: number;
+        };
+        rejected_for_queued_too_long?: {
           counter?: number;
           hz?: number;
           roughness?: number;
