@@ -12,7 +12,7 @@ export function* metrics(status: FDBStatus): IterableIterator<Metric> {
     type: 'gauge',
     name: 'fdb_database_locked',
     help: 'Whether or not database is locked. 1 if is, 0 otherwise',
-    values: [{value: status.cluster?.database_locked ? 1 : 0}],
+    values: [{value: status.cluster?.database_lock_state?.locked ? 1 : 0}],
   };
 
   yield {
@@ -103,6 +103,24 @@ function* workloadMetrics(
     help: 'Count of workload write operations',
     values: [{value: workload.operations?.writes?.counter}],
   };
+  yield {
+    type: 'counter',
+    name: 'fdb_workload_operations_location_requests_total',
+    help: 'Count of workload location request operations',
+    values: [{value: workload.operations?.location_requests?.counter}],
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_workload_operations_low_priority_reads_total',
+    help: 'Count of workload low priority read operations',
+    values: [{value: workload.operations?.low_priority_reads?.counter}],
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_workload_operations_memory_errors_total',
+    help: 'Count of workload memory errors',
+    values: [{value: workload.operations?.memory_errors?.counter}],
+  };
 
   yield {
     type: 'counter',
@@ -121,6 +139,14 @@ function* workloadMetrics(
     name: 'fdb_workload_transactions_conflicted_total',
     help: 'Count of workload conflicted transactions',
     values: [{value: workload.transactions?.conflicted?.counter}],
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_workload_transactions_rejected_for_queued_too_long_total',
+    help: 'Count of workload transactions rejected for being queued too long',
+    values: [
+      {value: workload.transactions?.rejected_for_queued_too_long?.counter},
+    ],
   };
 
   yield {
@@ -343,6 +369,33 @@ function* qosMetrics(
       ],
     };
   }
+
+  if (qos.throttled_tags) {
+    yield {
+      type: 'gauge',
+      name: 'fdb_qos_throttled_tags_auto_count',
+      help: 'Number of automatically throttled tags',
+      values: [{value: qos.throttled_tags.auto?.count}],
+    };
+    yield {
+      type: 'gauge',
+      name: 'fdb_qos_throttled_tags_auto_busy_read',
+      help: 'Number of automatically throttled tags for busy reads',
+      values: [{value: qos.throttled_tags.auto?.busy_read}],
+    };
+    yield {
+      type: 'gauge',
+      name: 'fdb_qos_throttled_tags_auto_busy_write',
+      help: 'Number of automatically throttled tags for busy writes',
+      values: [{value: qos.throttled_tags.auto?.busy_write}],
+    };
+    yield {
+      type: 'gauge',
+      name: 'fdb_qos_throttled_tags_manual_count',
+      help: 'Number of manually throttled tags',
+      values: [{value: qos.throttled_tags.manual?.count}],
+    };
+  }
 }
 
 function* recoveryStateMetrics(
@@ -372,6 +425,13 @@ function* recoveryStateMetrics(
     name: 'fdb_recovery_state_active_generations',
     help: 'Recovery state active generations count',
     values: [{value: recoveryState.active_generations}],
+  };
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_recovery_state_seconds_since_last_recovered',
+    help: 'Seconds since last recovery',
+    values: [{value: recoveryState.seconds_since_last_recovered}],
   };
 }
 
@@ -480,6 +540,15 @@ function* processesMemoryMetrics(
     values: Object.entries(processes).map(([processId, status]) => ({
       labels: {processId, address: status.address},
       value: status.memory?.unused_allocated_memory,
+    })),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_memory_rss_bytes',
+    help: 'Resident set size (RSS) memory in bytes for process',
+    values: Object.entries(processes).map(([processId, status]) => ({
+      labels: {processId, address: status.address},
+      value: status.memory?.rss_bytes,
     })),
   };
 }
@@ -622,6 +691,8 @@ function* processesRolesMetrics(
 
   yield* storageProcessesMetrics(processes);
   yield* logProcessesMetrics(processes);
+  yield* commitProxyProcessesMetrics(processes);
+  yield* grvProxyProcessesMetrics(processes);
 }
 
 function* storageProcessesMetrics(
@@ -733,6 +804,97 @@ function* storageProcessesMetrics(
       })),
     ),
   };
+
+  yield {
+    type: 'counter',
+    name: 'fdb_process_storage_fetched_versions_total',
+    help: 'Storage process fetched versions count',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.fetched_versions?.counter,
+      })),
+    ),
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_process_storage_fetches_from_logs_total',
+    help: 'Storage process fetches from logs count',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.fetches_from_logs?.counter,
+      })),
+    ),
+  };
+  yield {
+    type: 'counter',
+    name: 'fdb_process_storage_low_priority_queries_total',
+    help: 'Storage process low priority queries count',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.low_priority_queries?.counter,
+      })),
+    ),
+  };
+
+  // Read latency statistics for storage processes
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_read_latency_mean',
+    help: 'Storage process mean read latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.read_latency_statistics?.mean,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_read_latency_median',
+    help: 'Storage process median read latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.read_latency_statistics?.median,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_read_latency_p95',
+    help: 'Storage process p95 read latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.read_latency_statistics?.p95,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_read_latency_p99',
+    help: 'Storage process p99 read latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.read_latency_statistics?.p99,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_storage_read_latency_max',
+    help: 'Storage process max read latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('storage')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.read_latency_statistics?.max,
+      })),
+    ),
+  };
 }
 
 function* logProcessesMetrics(
@@ -806,6 +968,246 @@ function* logProcessesMetrics(
       (processStatus.roles ?? []).filter(isRole('log')).map((status) => ({
         labels: {processId, address: processStatus.address},
         value: status.durable_bytes?.counter,
+      })),
+    ),
+  };
+}
+
+function* commitProxyProcessesMetrics(
+  processes: NonNullable<FDBStatus['cluster']>['processes'],
+): IterableIterator<Metric> {
+  if (!processes) {
+    return;
+  }
+
+  // Commit batching window size statistics
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_batching_window_size_mean',
+    help: 'Commit proxy mean batching window size in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_batching_window_size?.mean,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_batching_window_size_median',
+    help: 'Commit proxy median batching window size in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_batching_window_size?.median,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_batching_window_size_p95',
+    help: 'Commit proxy p95 batching window size in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_batching_window_size?.p95,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_batching_window_size_p99',
+    help: 'Commit proxy p99 batching window size in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_batching_window_size?.p99,
+        })),
+    ),
+  };
+
+  // Commit latency statistics
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_commit_latency_mean',
+    help: 'Commit proxy mean commit latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_latency_statistics?.mean,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_commit_latency_median',
+    help: 'Commit proxy median commit latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_latency_statistics?.median,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_commit_latency_p95',
+    help: 'Commit proxy p95 commit latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_latency_statistics?.p95,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_commit_latency_p99',
+    help: 'Commit proxy p99 commit latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_latency_statistics?.p99,
+        })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_commit_proxy_commit_latency_max',
+    help: 'Commit proxy max commit latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? [])
+        .filter(isRole('commit_proxy'))
+        .map((status) => ({
+          labels: {processId, address: processStatus.address},
+          value: status.commit_latency_statistics?.max,
+        })),
+    ),
+  };
+}
+
+function* grvProxyProcessesMetrics(
+  processes: NonNullable<FDBStatus['cluster']>['processes'],
+): IterableIterator<Metric> {
+  if (!processes) {
+    return;
+  }
+
+  // GRV latency statistics - batch priority
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_batch_latency_mean',
+    help: 'GRV proxy mean batch priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.batch?.mean,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_batch_latency_median',
+    help: 'GRV proxy median batch priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.batch?.median,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_batch_latency_p95',
+    help: 'GRV proxy p95 batch priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.batch?.p95,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_batch_latency_p99',
+    help: 'GRV proxy p99 batch priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.batch?.p99,
+      })),
+    ),
+  };
+
+  // GRV latency statistics - default priority
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_default_latency_mean',
+    help: 'GRV proxy mean default priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.default?.mean,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_default_latency_median',
+    help: 'GRV proxy median default priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.default?.median,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_default_latency_p95',
+    help: 'GRV proxy p95 default priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.default?.p95,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_default_latency_p99',
+    help: 'GRV proxy p99 default priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.default?.p99,
+      })),
+    ),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_process_grv_proxy_default_latency_max',
+    help: 'GRV proxy max default priority latency in seconds',
+    values: Object.entries(processes).flatMap(([processId, processStatus]) =>
+      (processStatus.roles ?? []).filter(isRole('grv_proxy')).map((status) => ({
+        labels: {processId, address: processStatus.address},
+        value: status.grv_latency_statistics?.default?.max,
       })),
     ),
   };

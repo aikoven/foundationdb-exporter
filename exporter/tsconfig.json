@@ -9,5 +9,5 @@
     "strict": true,
     "noImplicitReturns": true
   },
-  "files": ["src/index.ts"]
+  "include": ["src"]
 }
