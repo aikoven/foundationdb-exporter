@@ -1,4 +1,4 @@
-FROM node:20 as builder
+FROM node:24 as builder
 
 # install FoundationDB client library
 RUN wget -q https://github.com/apple/foundationdb/releases/download/7.3.56/foundationdb-clients_7.3.56-1_amd64.deb \
@@ -13,7 +13,7 @@ RUN yarn
 COPY . .
 RUN yarn build
 
-FROM node:20
+FROM node:24
 
 # install FoundationDB client library
 RUN wget -q https://github.com/apple/foundationdb/releases/download/7.3.56/foundationdb-clients_7.3.56-1_amd64.deb \
