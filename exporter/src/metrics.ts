@@ -29,12 +29,124 @@ export function* metrics(status: FDBStatus): IterableIterator<Metric> {
     values: [{value: status.cluster?.datacenter_lag?.seconds}],
   };
 
+  yield {
+    type: 'gauge',
+    name: 'fdb_degraded_processes_total',
+    help: 'Number of degraded processes in the cluster',
+    values: [{value: status.cluster?.degraded_processes}],
+  };
+
+  yield* faultToleranceMetrics(status.cluster?.fault_tolerance);
+  yield* coordinatorsMetrics(status.client?.coordinators);
+  yield* machinesMetrics(status.cluster?.machines);
   yield* latencyProbeMetrics(status.cluster?.latency_probe);
   yield* workloadMetrics(status.cluster?.workload);
   yield* dataMetrics(status.cluster?.data);
   yield* qosMetrics(status.cluster?.qos);
   yield* recoveryStateMetrics(status.cluster?.recovery_state);
   yield* processesMetrics(status.cluster?.processes);
+}
+
+function* faultToleranceMetrics(
+  faultTolerance: NonNullable<FDBStatus['cluster']>['fault_tolerance'],
+): IterableIterator<Metric> {
+  if (!faultTolerance) {
+    return;
+  }
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_fault_tolerance_max_zone_failures_without_losing_data',
+    help: 'Maximum number of zones (fault domains) that can fail without losing data',
+    values: [{value: faultTolerance.max_zone_failures_without_losing_data}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_fault_tolerance_max_zone_failures_without_losing_availability',
+    help: 'Maximum number of zones (fault domains) that can fail without losing availability',
+    values: [
+      {value: faultTolerance.max_zone_failures_without_losing_availability},
+    ],
+  };
+}
+
+function* coordinatorsMetrics(
+  coordinators: NonNullable<FDBStatus['client']>['coordinators'],
+): IterableIterator<Metric> {
+  if (!coordinators) {
+    return;
+  }
+
+  const list = coordinators.coordinators ?? [];
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_coordinators_total',
+    help: 'Number of configured coordinators',
+    values: [{value: list.length}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_coordinators_reachable_total',
+    help: 'Number of reachable coordinators',
+    values: [{value: list.filter((c) => c.reachable).length}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_coordinators_quorum_reachable',
+    help: 'Whether a quorum of coordinators is reachable. 1 if is, 0 otherwise',
+    values: [{value: coordinators.quorum_reachable ? 1 : 0}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_coordinator_reachable',
+    help: 'Whether a coordinator is reachable. 1 if is, 0 otherwise',
+    values: list.map((c) => ({
+      labels: {address: c.address},
+      value: c.reachable ? 1 : 0,
+    })),
+  };
+}
+
+function* machinesMetrics(
+  machines: NonNullable<FDBStatus['cluster']>['machines'],
+): IterableIterator<Metric> {
+  if (!machines) {
+    return;
+  }
+
+  const entries = Object.entries(machines);
+
+  yield {
+    type: 'gauge',
+    name: 'fdb_machines_total',
+    help: 'Number of machines in the cluster',
+    values: [{value: entries.length}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_machines_excluded_total',
+    help: 'Number of excluded machines in the cluster',
+    values: [{value: entries.filter(([, m]) => m.excluded).length}],
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_machine_excluded',
+    help: 'Whether a machine is excluded. 1 if is, 0 otherwise',
+    values: entries.map(([machineId, m]) => ({
+      labels: {machineId, address: m.address},
+      value: m.excluded ? 1 : 0,
+    })),
+  };
+  yield {
+    type: 'gauge',
+    name: 'fdb_machine_network_tcp_segments_retransmitted_rate',
+    help: 'Rate of TCP segments retransmitted per second on a machine',
+    values: entries.map(([machineId, m]) => ({
+      labels: {machineId, address: m.address},
+      value: m.network?.tcp_segments_retransmitted?.hz,
+    })),
+  };
 }
 
 function* latencyProbeMetrics(
